@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Company Dashboard</title>
+
+    <link rel="stylesheet" href="css/dashboard.css">
+
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav>
+
+        <div class="logo">
+
+            <h2>BuildTrack</h2>
+
+        </div>
+
+        <div class="nav-links">
+
+            <button id="dashboardBtn" class="active">
+
+                Dashboard
+
+            </button>
+
+            <button id="createProjectBtn">
+
+                Create Project
+
+            </button>
+
+            <button id="browseProjectsBtn">
+
+                Browse Projects
+
+            </button>
+
+        </div>
+
+        <button id="logoutBtn">
+
+            Logout
+
+        </button>
+
+    </nav>
+
+
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <section id="dashboardSection">
+
+        <h1>Welcome Company</h1>
+
+        <div class="stats">
+
+            <div class="card">
+
+                <h2>Total Projects</h2>
+
+                <h1 id="totalProjects">0</h1>
+
+            </div>
+
+            <div class="card">
+
+                <h2>Active Projects</h2>
+
+                <h1 id="activeProjects">0</h1>
+
+            </div>
+
+            <div class="card">
+
+                <h2>Completed Projects</h2>
+
+                <h1 id="completedProjects">0</h1>
+
+            </div>
+
+        </div>
+
+        <h2>Recent Projects</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Code</th>
+
+                    <th>Status</th>
+
+                    <th>Progress</th>
+
+                    <th></th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="recentProjectsBody">
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+
+    <!-- ================= CREATE PROJECT ================= -->
+
+    <section id="createProjectSection" class="hidden">
+
+        <h1>Create Project</h1>
+
+        <form id="createProjectForm">
+
+            <label>
+
+                Project Name
+
+            </label>
+
+            <input
+                type="text"
+                id="projectNameInput"
+                required>
+
+            <label>
+
+                Location
+
+            </label>
+
+            <input
+                type="text"
+                id="projectLocationInput"
+                required>
+
+            <label>
+
+                Description
+
+            </label>
+
+            <textarea
+                id="projectDescriptionInput"
+                rows="5"></textarea>
+
+            <label>
+
+                Start Date
+
+            </label>
+
+            <input
+                type="date"
+                id="projectStartDate">
+
+            <label>
+
+                Expected End Date
+
+            </label>
+
+            <input
+                type="date"
+                id="projectEndDate">
+
+            <button type="submit">
+
+                Create Project
+
+            </button>
+
+        </form>
+
+    </section>
+
+
+
+    <!-- ================= BROWSE PROJECTS ================= -->
+
+    <section id="browseProjectsSection" class="hidden">
+
+        <h1>Browse Projects</h1>
+
+        <input
+            type="text"
+            id="searchProject"
+            placeholder="Search Project">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Code</th>
+
+                    <th>Status</th>
+
+                    <th>Progress</th>
+
+                    <th></th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="browseProjectsBody">
+
+            </tbody>
+
+        </table>
+
+    </section>
+        <!-- ================= PROJECT DETAILS ================= -->
+
+    <section id="projectSection" class="hidden">
+
+        <button id="backBtn">
+
+            ← Back
+
+        </button>
+
+        <h1 id="projectName"></h1>
+
+        <p>
+
+            <strong>Project Code :</strong>
+
+            <span id="projectCode"></span>
+
+        </p>
+
+        <p>
+
+            <strong>Location :</strong>
+
+            <span id="projectLocation"></span>
+
+        </p>
+
+        <p>
+
+            <strong>Status :</strong>
+
+            <select id="projectStatus">
+            <option value="Active">Active</option>
+            <option value="On Hold">On Hold</option>
+            <option value="Completed">Completed</option>
+            </select>
+
+            <button id="updateProjectStatusBtn">
+                Update Status
+            </button>
+
+        </p>
+
+        <div class="progressBar">
+
+            <div
+                class="progress"
+                id="progressBar">
+
+                0%
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= PROJECT TABS ================= -->
+
+        <div class="projectTabs">
+
+            <button
+                id="overviewBtn"
+                class="active">
+
+                Overview
+
+            </button>
+
+            <button id="tasksBtn">
+
+                Tasks
+
+            </button>
+
+            <button id="engineersBtn">
+
+                Engineers
+
+            </button>
+
+            <button id="clientsBtn">
+
+                Clients
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ================= OVERVIEW ================= -->
+
+        <div id="overviewDiv">
+
+            <h2>Project Overview</h2>
+
+            <p>
+
+                Total Tasks :
+
+                <span id="totalTasks">
+
+                    0
+
+                </span>
+
+            </p>
+
+            <p>
+
+                Completed :
+
+                <span id="completedTasks">
+
+                    0
+
+                </span>
+
+            </p>
+
+            <p>
+
+                Pending :
+
+                <span id="pendingTasks">
+
+                    0
+
+                </span>
+
+            </p>
+
+        </div>
+
+
+
+        <!-- ================= TASKS ================= -->
+
+        <!-- ================= TASKS ================= -->
+
+        <div id="tasksDiv" class="hidden">
+
+            <h2>Tasks</h2>
+
+            <div class="taskForm">
+
+                <input
+                    type="text"
+                    id="taskNameInput"
+                    placeholder="Task Name">
+
+                <input
+                    type="date"
+                    id="taskDeadlineInput">
+
+                <button id="addTaskBtn">
+                    Add Task
+                </button>
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Task</th>
+
+                        <th>Deadline</th>
+
+                        <th>Status</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tasksBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+
+        <!-- ================= ENGINEERS ================= -->
+
+        <div
+            id="engineersDiv"
+            class="hidden">
+
+            <h2>
+
+                Engineers
+
+            </h2>
+
+            <input
+                type="email"
+                id="engineerEmail"
+                placeholder="Engineer Email">
+
+            <button id="inviteEngineerBtn">
+
+                Invite Engineer
+
+            </button>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+
+                            Email
+
+                        </th>
+
+                        <th>
+
+                            Status
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="engineersBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+
+        <!-- ================= CLIENTS ================= -->
+
+        <div
+            id="clientsDiv"
+            class="hidden">
+
+            <h2>
+
+                Clients
+
+            </h2>
+
+            <input
+                type="email"
+                id="clientEmail"
+                placeholder="Client Email">
+
+            <button id="inviteClientBtn">
+
+                Invite Client
+
+            </button>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+
+                            Email
+
+                        </th>
+
+                        <th>
+
+                            Status
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="clientsBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <script src="js/dashboard.js"></script>
+    <script src="../config.js"></script>
+
+</body>
+
+</html>

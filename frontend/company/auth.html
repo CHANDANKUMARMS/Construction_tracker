@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Company Portal | BuildTrack</title>
+
+    <link rel="stylesheet" href="css/auth.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="left">
+
+        <h1>🏢 BuildTrack</h1>
+
+        <h2>Company Portal</h2>
+
+        <p>
+            Manage projects, employees and clients from one place.
+        </p>
+
+    </div>
+
+
+    <div class="right">
+
+        <div class="tabs">
+
+            <button type="button" class="active" id="loginTab">
+                Login
+            </button>
+
+            <button type="button" id="signupTab">
+                Register Company
+            </button>
+
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <form id="loginForm">
+
+            <input
+                type="email"
+                placeholder="Company Email"
+                id="loginEmail"
+                required
+            >
+
+            <input
+                type="password"
+                placeholder="Password"
+                id="loginPassword"
+                required
+            >
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+
+
+        <!-- SIGNUP -->
+
+        <form id="signupForm" class="hidden">
+
+            <input
+                type="text"
+                placeholder="Company Name"
+                id="companyName"
+                required
+            >
+
+            <input
+                type="text"
+                placeholder="Owner Name"
+                id="ownerName"
+                required
+            >
+
+            <input
+                type="email"
+                placeholder="Official Email"
+                id="signupEmail"
+                required
+            >
+
+            <input
+                type="password"
+                placeholder="Password"
+                id="signupPassword"
+                required
+            >
+
+            <input
+                type="password"
+                placeholder="Confirm Password"
+                id="confirmPassword"
+                required
+            >
+
+            <button type="submit">
+                Register Company
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="../config.js"></script>
+<script src="js/auth.js"></script>
+
+</body>
+
+</html>

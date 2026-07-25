@@ -1,0 +1,306 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+
+    font-family: 'Poppins', sans-serif;
+    background: #f5f7fb;
+    color: #333;
+
+}
+
+header {
+
+    height: 70px;
+
+    background: #0f172a;
+
+    color: white;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 0 40px;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+
+}
+
+.logo {
+
+    font-size: 24px;
+    font-weight: 600;
+
+}
+
+#logoutBtn {
+
+    background: #ef4444;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 22px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    transition: 0.3s;
+
+}
+
+#logoutBtn:hover {
+
+    background: #dc2626;
+
+}
+
+main {
+
+    max-width: 1300px;
+
+    margin: 40px auto;
+
+    padding: 0 30px;
+
+}
+
+.welcome-card {
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+
+    margin-bottom: 30px;
+
+}
+
+.welcome-card h2 {
+
+    margin-bottom: 10px;
+
+    color: #0f172a;
+
+}
+
+.welcome-card p {
+
+    color: #666;
+
+}
+
+.dashboard-container {
+
+    display: grid;
+
+    grid-template-columns: 320px 1fr;
+
+    gap: 30px;
+
+}
+
+.join-project-card,
+.projects-card {
+
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 25px;
+
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+
+}
+
+.join-project-card h3,
+.projects-card h3 {
+
+    margin-bottom: 20px;
+
+    color: #0f172a;
+
+}
+
+.join-project-card input {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    margin-bottom: 18px;
+
+    outline: none;
+
+}
+
+.join-project-card input:focus {
+
+    border-color: #2563eb;
+
+}
+
+#joinProjectBtn {
+
+    width: 100%;
+
+    padding: 13px;
+
+    background: #2563eb;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+}
+
+#joinProjectBtn:hover {
+
+    background: #1d4ed8;
+
+}
+
+.projects-header {
+
+    margin-bottom: 20px;
+
+}
+
+#projectsContainer {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+}
+
+.project-card {
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    padding: 18px;
+
+    transition: 0.3s;
+
+}
+
+.project-card:hover {
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+}
+
+.project-card h4 {
+
+    margin-bottom: 12px;
+
+    color: #111827;
+
+}
+
+.project-info {
+
+    display: flex;
+
+    gap: 30px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 18px;
+
+}
+
+.project-info p {
+
+    color: #555;
+
+    font-size: 14px;
+
+}
+
+.project-card button {
+
+    background: #2563eb;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 18px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+}
+
+.project-card button:hover {
+
+    background: #1d4ed8;
+
+}
+
+.no-projects {
+
+    text-align: center;
+
+    color: #888;
+
+    padding: 50px 0;
+
+}
+
+@media(max-width:900px){
+
+    .dashboard-container{
+
+        grid-template-columns: 1fr;
+
+    }
+
+    header{
+
+        padding: 0 20px;
+
+    }
+
+    main{
+
+        padding: 0 20px;
+
+    }
+
+}

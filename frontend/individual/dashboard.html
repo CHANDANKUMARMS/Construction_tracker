@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Individual Dashboard | BuildTrack</title>
+
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">
+            👷 BuildTrack
+        </div>
+
+        <button id="logoutBtn">
+            Logout
+        </button>
+
+    </header>
+
+
+    <main>
+
+        <div class="welcome-card">
+
+            <h2>
+                Welcome to your Dashboard
+            </h2>
+
+            <p>
+                Join new projects and monitor the projects assigned to you.
+            </p>
+
+        </div>
+
+
+        <div class="dashboard-container">
+
+
+            <!-- Join Project -->
+
+            <section class="join-project-card">
+
+                <h3>
+                    Join Project
+                </h3>
+
+                <input
+                    type="text"
+                    id="projectCode"
+                    placeholder="Enter Project Code"
+                >
+
+                <button id="joinProjectBtn">
+                    Join Project
+                </button>
+
+            </section>
+
+
+
+            <!-- My Projects -->
+
+            <section class="projects-card">
+
+                <div class="projects-header">
+
+                    <h3>
+                        My Projects
+                    </h3>
+
+                </div>
+
+
+                <div id="projectsContainer">
+
+                    <!-- Filled dynamically from dashboard.js -->
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <script src="../config.js"></script>
+    <script src="js/dashboard.js"></script>
+
+</body>
+
+</html>

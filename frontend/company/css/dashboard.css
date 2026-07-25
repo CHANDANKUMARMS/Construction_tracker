@@ -1,0 +1,892 @@
+/* ==========================================================
+   BuildTrack Dashboard
+   Design direction: a construction-site blueprint identity,
+   turned up in color. Blueprint navy is still the anchor, but
+   each stat card, status, and accent now carries its own
+   distinct hue so the page reads as lively, not monochrome.
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+/* ================= TOKENS ================= */
+
+:root{
+    /* ink / neutrals */
+    --ink:#182230;
+    --slate:#4b5768;
+    --muted:#8592a3;
+    --border:#dde3ec;
+    --bg:#eef1f6;
+    --surface:#ffffff;
+
+    /* blueprint blue - primary */
+    --blue:#1d5bb8;
+    --blue-dark:#153c6c;
+    --blue-wash:#e4eefc;
+
+    /* violet - secondary accent */
+    --violet:#7c3aed;
+    --violet-dark:#6224c7;
+    --violet-wash:#f1e9fd;
+
+    /* safety amber - pending / caution */
+    --amber:#d97c0a;
+    --amber-dark:#b5650c;
+    --amber-wash:#fdf0dc;
+
+    /* site green - active / completed */
+    --green:#12a06a;
+    --green-dark:#0f8358;
+    --green-wash:#e0f7ee;
+
+    /* teal - tertiary accent */
+    --teal:#0891b2;
+    --teal-wash:#e0f4f8;
+
+    /* brick red - destructive */
+    --red:#dc3d31;
+    --red-dark:#b3271f;
+    --red-wash:#fce8e6;
+
+    /* elevation */
+    --shadow-sm:0 1px 2px rgba(24,34,48,.06), 0 1px 1px rgba(24,34,48,.04);
+    --shadow-md:0 10px 28px rgba(24,34,48,.10);
+
+    /* radius */
+    --r-sm:6px;
+    --r-md:10px;
+    --r-lg:16px;
+}
+
+/* ================= RESET ================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Inter",sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg);
+    color:var(--ink);
+    min-height:100vh;
+}
+
+h1,h2,.logo h2,.card h1{
+    font-family:"Space Grotesk","Inter",sans-serif;
+}
+
+button,input,textarea,select{
+    font-family:inherit;
+}
+
+:focus-visible{
+    outline:2px solid var(--blue);
+    outline-offset:2px;
+}
+
+@media (prefers-reduced-motion:reduce){
+    *{
+        animation:none !important;
+        transition:none !important;
+    }
+}
+
+/* ================= SCROLLBAR ================= */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:var(--bg);
+}
+
+::-webkit-scrollbar-thumb{
+    background:#c2cbd8;
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#9aa7ba;
+}
+
+/* ================= NAVBAR ================= */
+
+nav{
+    height:74px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 48px;
+    background:var(--surface);
+    position:sticky;
+    top:0;
+    z-index:1000;
+    border-bottom:1px solid var(--border);
+}
+
+/* Signature mark: a stamped monogram tile in a blue-to-violet
+   gradient, like a title-block stamp on a blueprint sheet. */
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo::before{
+    content:"BT";
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:38px;
+    height:38px;
+    background:linear-gradient(135deg,var(--blue),var(--violet));
+    border-radius:var(--r-sm);
+    font-family:"IBM Plex Mono",monospace;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.5px;
+    color:white;
+}
+
+.logo h2{
+    font-size:21px;
+    font-weight:700;
+    color:var(--ink);
+    letter-spacing:-.3px;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.nav-links button{
+    background:none;
+    border:none;
+    color:var(--slate);
+    font-size:14.5px;
+    font-weight:600;
+    padding:10px 18px;
+    border-radius:var(--r-sm);
+    cursor:pointer;
+    transition:background .2s,color .2s;
+}
+
+.nav-links button:hover{
+    background:var(--blue-wash);
+    color:var(--blue);
+}
+
+.nav-links .active{
+    background:linear-gradient(135deg,var(--blue),var(--violet));
+    color:white;
+}
+
+#logoutBtn{
+    border:1px solid var(--red);
+    background:var(--surface);
+    color:var(--red);
+    font-weight:600;
+    font-size:14px;
+    padding:10px 20px;
+    border-radius:var(--r-sm);
+    cursor:pointer;
+    transition:background .2s,color .2s;
+}
+
+#logoutBtn:hover{
+    background:var(--red);
+    color:white;
+}
+
+/* ================= MAIN ================= */
+
+section{
+    width:min(1320px,92%);
+    margin:24px auto;
+}
+
+.hidden{
+    display:none;
+}
+
+h1{
+    font-size:26px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:16px;
+    letter-spacing:-.3px;
+}
+
+h2{
+    color:var(--slate);
+    font-weight:600;
+}
+
+/* ================= DASHBOARD STAT CARDS ================= */
+/* Each card gets its own accent - blue for the total count,
+   green for active work, violet for completed work - so the
+   three numbers are instantly distinguishable at a glance. */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin-bottom:24px;
+}
+
+.card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-top:3px solid var(--blue);
+    border-radius:var(--r-md);
+    padding:18px 20px;
+    box-shadow:var(--shadow-sm);
+    transition:box-shadow .2s,transform .2s;
+}
+
+.stats .card:nth-child(2){
+    border-top-color:var(--green);
+}
+
+.stats .card:nth-child(3){
+    border-top-color:var(--violet);
+}
+
+.card:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--shadow-md);
+}
+
+.card h2{
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:8px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.card h1{
+    margin:0;
+    font-size:40px;
+    font-weight:600;
+    color:var(--blue);
+    font-family:"IBM Plex Mono",monospace;
+}
+
+.stats .card:nth-child(2) h1{
+    color:var(--green);
+}
+
+.stats .card:nth-child(3) h1{
+    color:var(--violet);
+}
+
+/* ================= FORM ================= */
+
+form{
+    background:var(--surface);
+    padding:22px 24px;
+    border:1px solid var(--border);
+    border-radius:var(--r-lg);
+    box-shadow:var(--shadow-sm);
+    max-width:640px;
+}
+
+form label{
+    display:block;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--slate);
+    text-transform:uppercase;
+    letter-spacing:.6px;
+    margin-top:12px;
+    margin-bottom:5px;
+}
+
+form input,
+form textarea,
+form select{
+    width:100%;
+    padding:9px 12px;
+    border:1px solid var(--border);
+    border-radius:var(--r-sm);
+    font-size:14px;
+    color:var(--ink);
+    transition:border-color .2s,box-shadow .2s;
+    outline:none;
+    background:var(--surface);
+}
+
+form textarea{
+    resize:vertical;
+    min-height:80px;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus{
+    border-color:var(--blue);
+    box-shadow:0 0 0 3px var(--blue-wash);
+}
+
+form button{
+    margin-top:16px;
+    padding:10px 22px;
+    border:none;
+    border-radius:var(--r-sm);
+    background:linear-gradient(135deg,var(--blue),var(--violet));
+    color:white;
+    font-size:14.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:filter .2s,transform .2s;
+}
+
+form button:hover{
+    filter:brightness(1.08);
+    transform:translateY(-1px);
+}
+
+/* ================= SEARCH ================= */
+
+#browseProjectsSection input{
+    width:320px;
+    padding:9px 12px;
+    border:1px solid var(--border);
+    border-radius:var(--r-sm);
+    outline:none;
+    transition:border-color .2s,box-shadow .2s;
+    margin-bottom:14px;
+    background:var(--surface);
+    font-size:14px;
+}
+
+#browseProjectsSection input:focus{
+    border-color:var(--blue);
+    box-shadow:0 0 0 3px var(--blue-wash);
+}
+
+/* ================= TABLE ================= */
+
+table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--r-lg);
+    overflow:hidden;
+    box-shadow:var(--shadow-sm);
+}
+
+thead{
+    background:linear-gradient(135deg,var(--blue),var(--violet));
+}
+
+thead th{
+    color:white;
+    font-size:12px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+    padding:11px 14px;
+    text-align:left;
+}
+
+tbody td{
+    padding:10px 14px;
+    font-size:14px;
+    border-bottom:1px solid var(--border);
+    color:var(--ink);
+}
+
+/* Project codes read as stamped IDs, not prose. */
+tbody td:nth-child(2){
+    font-family:"IBM Plex Mono",monospace;
+    font-size:13.5px;
+    color:var(--teal);
+    letter-spacing:.4px;
+}
+
+tbody tr{
+    transition:background .15s;
+}
+
+tbody tr:hover{
+    background:var(--blue-wash);
+}
+
+tbody tr:last-child td{
+    border-bottom:none;
+}
+
+table button{
+    border:none;
+    border-radius:var(--r-sm);
+    padding:8px 16px;
+    font-size:13.5px;
+    font-weight:600;
+    color:white;
+    cursor:pointer;
+    transition:background .2s,transform .15s;
+}
+
+table button:hover{
+    transform:translateY(-1px);
+}
+
+.openProjectBtn{
+    background:var(--blue);
+}
+
+.openProjectBtn:hover{
+    background:var(--blue-dark);
+}
+
+.completeTaskBtn{
+    background:var(--green);
+}
+
+.completeTaskBtn:hover{
+    background:var(--green-dark);
+}
+
+.completeTaskBtn:disabled{
+    background:var(--muted);
+    cursor:not-allowed;
+    transform:none;
+}
+
+.deleteTaskBtn{
+    background:var(--red);
+    margin-left:8px;
+}
+
+.deleteTaskBtn:hover{
+    background:var(--red-dark);
+}
+
+/* ================= PROJECT DETAIL PAGE ================= */
+
+#projectSection{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--r-lg);
+    padding:22px 26px;
+    box-shadow:var(--shadow-sm);
+}
+
+#backBtn{
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--slate);
+    padding:8px 14px;
+    border-radius:var(--r-sm);
+    cursor:pointer;
+    font-weight:600;
+    font-size:13.5px;
+    transition:border-color .2s,color .2s;
+    margin-bottom:14px;
+}
+
+#backBtn:hover{
+    border-color:var(--blue);
+    color:var(--blue);
+}
+
+#projectName{
+    font-size:24px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:8px;
+}
+
+#projectCode{
+    display:inline-block;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:13px;
+    letter-spacing:.6px;
+    color:var(--teal);
+    background:var(--teal-wash);
+    padding:3px 10px;
+    border-radius:var(--r-sm);
+}
+
+#projectLocation{
+    font-size:14.5px;
+    color:var(--slate);
+}
+
+#projectSection > p{
+    margin-bottom:6px;
+    font-size:14px;
+    color:var(--slate);
+}
+
+#projectSection > p strong{
+    color:var(--ink);
+    font-weight:600;
+}
+
+#projectStatus{
+    font-weight:600;
+    color:var(--ink);
+}
+
+/* ================= PROGRESS ================= */
+
+.progressBar{
+    width:100%;
+    height:9px;
+    border-radius:20px;
+    background:var(--border);
+    overflow:hidden;
+    margin:14px 0;
+}
+
+.progress{
+    height:100%;
+    background:linear-gradient(90deg,var(--blue),var(--violet));
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    padding-right:10px;
+    color:white;
+    font-size:0;
+    font-weight:600;
+    transition:width .5s ease;
+}
+
+/* ================= TABS ================= */
+/* Underline tabs, colored per section so Tasks / Engineers /
+   Clients each feel distinct rather than one repeated blue. */
+
+.projectTabs{
+    display:flex;
+    gap:22px;
+    margin:18px 0 16px;
+    border-bottom:1px solid var(--border);
+}
+
+.projectTabs button{
+    padding:8px 2px 10px;
+    border:none;
+    border-bottom:2px solid transparent;
+    background:none;
+    color:var(--muted);
+    font-weight:600;
+    font-size:14.5px;
+    cursor:pointer;
+    transition:color .2s,border-color .2s;
+}
+
+.projectTabs button:hover{
+    color:var(--blue);
+}
+
+.projectTabs .active{
+    color:var(--blue);
+    border-bottom-color:var(--blue);
+    background:none;
+    box-shadow:none;
+}
+
+#tasksBtn.active{
+    color:var(--green);
+    border-bottom-color:var(--green);
+}
+
+#engineersBtn.active{
+    color:var(--amber);
+    border-bottom-color:var(--amber);
+}
+
+#clientsBtn.active{
+    color:var(--violet);
+    border-bottom-color:var(--violet);
+}
+
+/* ================= OVERVIEW ================= */
+
+#overviewDiv{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+
+#overviewDiv p{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-top:3px solid var(--blue);
+    border-radius:var(--r-md);
+    padding:14px;
+    text-align:center;
+    font-size:13px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:.6px;
+    font-weight:600;
+}
+
+#overviewDiv p:nth-child(2){
+    border-top-color:var(--green);
+}
+
+#overviewDiv p:nth-child(3){
+    border-top-color:var(--amber);
+}
+
+#overviewDiv span{
+    display:block;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:30px;
+    color:var(--ink);
+    text-transform:none;
+    letter-spacing:0;
+    margin-top:10px;
+}
+
+/* ================= TASKS / ENGINEERS / CLIENTS FORMS ================= */
+
+#tasksDiv input,
+#tasksDiv select,
+#engineersDiv input,
+#clientsDiv input{
+    padding:9px 12px;
+    border-radius:var(--r-sm);
+    border:1px solid var(--border);
+    outline:none;
+    margin-right:8px;
+    margin-bottom:12px;
+    font-size:14px;
+    transition:border-color .2s,box-shadow .2s;
+    background:var(--surface);
+}
+
+#tasksDiv input,
+#tasksDiv select{
+    width:240px;
+}
+
+#engineersDiv input,
+#clientsDiv input{
+    width:300px;
+}
+
+#tasksDiv input:focus,
+#tasksDiv select:focus{
+    border-color:var(--green);
+    box-shadow:0 0 0 3px var(--green-wash);
+}
+
+#engineersDiv input:focus{
+    border-color:var(--amber);
+    box-shadow:0 0 0 3px var(--amber-wash);
+}
+
+#clientsDiv input:focus{
+    border-color:var(--violet);
+    box-shadow:0 0 0 3px var(--violet-wash);
+}
+
+#tasksDiv button{
+    padding:9px 18px;
+    border:none;
+    border-radius:var(--r-sm);
+    background:var(--green);
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+    font-size:14.5px;
+    transition:background .2s;
+}
+
+#tasksDiv button:hover{
+    background:var(--green-dark);
+}
+
+#engineersDiv button{
+    padding:9px 18px;
+    border:none;
+    border-radius:var(--r-sm);
+    background:var(--amber);
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+    font-size:14.5px;
+    transition:background .2s;
+}
+
+#engineersDiv button:hover{
+    background:var(--amber-dark);
+}
+
+#clientsDiv button{
+    padding:9px 18px;
+    border:none;
+    border-radius:var(--r-sm);
+    background:var(--violet);
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+    font-size:14.5px;
+    transition:background .2s;
+}
+
+#clientsDiv button:hover{
+    background:var(--violet-dark);
+}
+
+/* ================= STATUS BADGES ================= */
+/* Small pill with a dot, so status reads at a glance rather
+   than relying on bold colored text alone. */
+
+.status-active,
+.status-pending,
+.status-completed{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:4px 12px;
+    border-radius:20px;
+    font-size:12.5px;
+    font-weight:600;
+}
+
+.status-active::before,
+.status-pending::before,
+.status-completed::before{
+    content:"";
+    width:6px;
+    height:6px;
+    border-radius:50%;
+}
+
+.status-active{
+    color:var(--green);
+    background:var(--green-wash);
+}
+.status-active::before{
+    background:var(--green);
+}
+
+.status-pending{
+    color:var(--amber);
+    background:var(--amber-wash);
+}
+.status-pending::before{
+    background:var(--amber);
+}
+
+.status-completed{
+    color:var(--violet);
+    background:var(--violet-wash);
+}
+.status-completed::before{
+    background:var(--violet);
+}
+
+/* ================= EMPTY TABLE ================= */
+
+tbody td[colspan]{
+    text-align:center;
+    padding:36px;
+    color:var(--muted);
+    font-style:italic;
+    background:var(--surface);
+}
+
+/* ================= ANIMATIONS ================= */
+
+.card,
+#projectSection{
+    animation:fadeUp .3s ease;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1100px){
+    .stats{
+        grid-template-columns:1fr;
+    }
+    #overviewDiv{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:900px){
+    nav{
+        flex-direction:column;
+        height:auto;
+        padding:18px;
+        gap:16px;
+    }
+
+    .nav-links{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    section{
+        width:95%;
+    }
+
+    table{
+        display:block;
+        overflow-x:auto;
+    }
+
+    #tasksDiv input,
+    #tasksDiv select,
+    #engineersDiv input,
+    #clientsDiv input{
+        width:100%;
+        margin-bottom:14px;
+    }
+
+    #tasksDiv button,
+    #engineersDiv button,
+    #clientsDiv button{
+        width:100%;
+    }
+}
+
+@media(max-width:650px){
+    h1{
+        font-size:23px;
+    }
+
+    .logo h2{
+        font-size:18px;
+    }
+
+    .card h1{
+        font-size:32px;
+    }
+
+    #projectName{
+        font-size:23px;
+    }
+}
