@@ -7,6 +7,10 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <title>Individual Dashboard | BuildTrack</title>
 
     <link rel="stylesheet" href="css/dashboard.css">
@@ -17,20 +21,23 @@
 
 <body>
 
-    <header>
+<header>
 
-        <div class="logo">
-            👷 BuildTrack
-        </div>
+    <div class="logo">
+        👷 BuildTrack
+    </div>
 
-        <button id="logoutBtn">
-            Logout
-        </button>
+    <button id="logoutBtn">
+        Logout
+    </button>
 
-    </header>
+</header>
 
+<main>
 
-    <main>
+    <!-- ================= Dashboard ================= -->
+
+    <section id="dashboardSection">
 
         <div class="welcome-card">
 
@@ -44,9 +51,7 @@
 
         </div>
 
-
         <div class="dashboard-container">
-
 
             <!-- Join Project -->
 
@@ -58,7 +63,7 @@
 
                 <input
                     type="text"
-                    id="projectCode"
+                    id="projectCodeInput"
                     placeholder="Enter Project Code"
                 >
 
@@ -69,8 +74,7 @@
             </section>
 
 
-
-            <!-- My Projects -->
+            <!-- Browse Projects -->
 
             <section class="projects-card">
 
@@ -80,24 +84,317 @@
                         My Projects
                     </h3>
 
+                    <input
+                        type="text"
+                        id="searchProject"
+                        placeholder="Search Projects..."
+                    >
+
                 </div>
 
+                <table>
 
-                <div id="projectsContainer">
+                    <thead>
 
-                    <!-- Filled dynamically from dashboard.js -->
+                        <tr>
 
-                </div>
+                            <th>Name</th>
+
+                            <th>Code</th>
+
+                            <th>Status</th>
+
+                            <th>Role</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="browseProjectsBody">
+
+                    </tbody>
+
+                </table>
 
             </section>
 
         </div>
 
-    </main>
+    </section>
 
 
-    <script src="../config.js"></script>
-    <script src="js/dashboard.js"></script>
+    <!-- ================= Project Details ================= -->
+
+    <section
+        id="projectSection"
+        class="hidden"
+    >
+
+        <button id="backBtn">
+            ← Back
+        </button>
+
+        <h2 id="projectName"></h2>
+
+        <div class="project-info-grid">
+
+            <div>
+
+                <strong>Project Code:</strong>
+
+                <span id="projectCode"></span>
+
+            </div>
+
+            <div>
+
+                <strong>Location:</strong>
+
+                <span id="projectLocation"></span>
+
+            </div>
+
+            <div>
+
+                <strong>Status:</strong>
+
+                <select id="projectStatus">
+
+                    <option>Active</option>
+
+                    <option>Completed</option>
+
+                </select>
+
+                <button id="updateProjectStatusBtn">
+                    Update
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Progress -->
+
+        <div class="progress-container">
+
+            <div
+                id="progressBar"
+                class="progress-bar"
+            >
+                0%
+            </div>
+
+        </div>
+
+
+        <!-- Tabs -->
+
+        <div class="project-tabs">
+
+            <button
+                id="overviewBtn"
+                class="active"
+            >
+                Overview
+            </button>
+
+            <button id="tasksBtn">
+                Tasks
+            </button>
+
+            <button id="engineersBtn">
+                Engineers
+            </button>
+
+            <button id="clientsBtn">
+                Clients
+            </button>
+
+        </div>
+
+
+        <!-- ================= Overview ================= -->
+
+        <div id="overviewDiv">
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <h3 id="totalTasks">0</h3>
+
+                    <p>Total Tasks</p>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <h3 id="completedTasks">0</h3>
+
+                    <p>Completed</p>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <h3 id="pendingTasks">0</h3>
+
+                    <p>Pending</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= Tasks ================= -->
+
+        <div
+            id="tasksDiv"
+            class="hidden"
+        >
+
+            <div class="add-task">
+
+                <input
+                    id="taskNameInput"
+                    placeholder="Task Name"
+                >
+
+                <input
+                    type="date"
+                    id="taskDeadlineInput"
+                >
+
+                <button id="addTaskBtn">
+                    Add Task
+                </button>
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Task</th>
+
+                        <th>Deadline</th>
+
+                        <th>Status</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tasksBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- ================= Engineers ================= -->
+
+        <div
+            id="engineersDiv"
+            class="hidden"
+        >
+
+            <div class="invite-section">
+
+                <input
+                    id="engineerEmail"
+                    placeholder="Engineer Email"
+                >
+
+                <button id="inviteEngineerBtn">
+                    Invite Engineer
+                </button>
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Email</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="engineersBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- ================= Clients ================= -->
+
+        <div
+            id="clientsDiv"
+            class="hidden"
+        >
+
+            <div class="invite-section">
+
+                <input
+                    id="clientEmail"
+                    placeholder="Client Email"
+                >
+
+                <button id="inviteClientBtn">
+                    Invite Client
+                </button>
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Email</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="clientsBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="../config.js"></script>
+<script src="js/dashboard.js"></script>
 
 </body>
 

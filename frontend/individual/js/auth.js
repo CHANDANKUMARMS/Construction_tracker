@@ -126,6 +126,8 @@ signupForm.addEventListener("submit", async (e) => {
         if (response.ok) {
 
             alert(data.message);
+            // Switch back to Login form
+            loginTab.click();
 
         }
         else {

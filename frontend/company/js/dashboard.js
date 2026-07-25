@@ -21,7 +21,7 @@ function getToken() {
 function requireAuthOrRedirect() {
     const token = getToken();
     if (!token) {
-        window.location.href = "auth.html";
+        window.location.replace("auth.html");
         return null;
     }
     return token;
@@ -701,7 +701,7 @@ function attachNavigation() {
 
     localStorage.removeItem("selectedProject");
 
-    window.location.href = "auth.html";
+    window.location.replace("auth.html");
 
 });
 

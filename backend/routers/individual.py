@@ -293,8 +293,6 @@ def get_project(
 
         "role": role,
 
-        "can_edit": role == "engineer",
-
         "project": project
 
     }

@@ -1,306 +1,814 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* ==========================================================
+   BuildTrack - Individual Dashboard
+   Same design system as the admin dashboard.css: blueprint
+   navy anchor, colorful per-section accents, Space Grotesk /
+   Inter / IBM Plex Mono type stack. Built for this page's own
+   markup (header/main, .welcome-card, .dashboard-container,
+   .project-info-grid, .progress-bar, .stat-card, etc.) rather
+   than copy-pasted from the admin file.
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+/* ================= TOKENS (identical to dashboard.css) ================= */
+
+:root{
+    --ink:#182230;
+    --slate:#4b5768;
+    --muted:#8592a3;
+    --border:#dde3ec;
+    --bg:#eef1f6;
+    --surface:#ffffff;
+
+    --blue:#1d5bb8;
+    --blue-dark:#153c6c;
+    --blue-wash:#e4eefc;
+
+    --violet:#7c3aed;
+    --violet-dark:#6224c7;
+    --violet-wash:#f1e9fd;
+
+    --amber:#d97c0a;
+    --amber-dark:#b5650c;
+    --amber-wash:#fdf0dc;
+
+    --green:#12a06a;
+    --green-dark:#0f8358;
+    --green-wash:#e0f7ee;
+
+    --teal:#0891b2;
+    --teal-wash:#e0f4f8;
+
+    --red:#dc3d31;
+    --red-dark:#b3271f;
+    --red-wash:#fce8e6;
+
+    --shadow-sm:0 1px 2px rgba(24,34,48,.06), 0 1px 1px rgba(24,34,48,.04);
+    --shadow-md:0 10px 28px rgba(24,34,48,.10);
+
+    --r-sm:6px;
+    --r-md:10px;
+    --r-lg:16px;
 }
 
-body {
+/* ================= RESET ================= */
 
-    font-family: 'Poppins', sans-serif;
-    background: #f5f7fb;
-    color: #333;
-
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Inter",sans-serif;
 }
 
-header {
-
-    height: 70px;
-
-    background: #0f172a;
-
-    color: white;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding: 0 40px;
-
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-
+html{
+    scroll-behavior:smooth;
 }
 
-.logo {
-
-    font-size: 24px;
-    font-weight: 600;
-
+body{
+    background:var(--bg);
+    color:var(--ink);
+    min-height:100vh;
 }
 
-#logoutBtn {
-
-    background: #ef4444;
-
-    color: white;
-
-    border: none;
-
-    padding: 10px 22px;
-
-    border-radius: 8px;
-
-    cursor: pointer;
-
-    font-size: 15px;
-
-    transition: 0.3s;
-
+h2,h3,.logo{
+    font-family:"Space Grotesk","Inter",sans-serif;
 }
 
-#logoutBtn:hover {
-
-    background: #dc2626;
-
+button,input,select{
+    font-family:inherit;
 }
 
-main {
-
-    max-width: 1300px;
-
-    margin: 40px auto;
-
-    padding: 0 30px;
-
+:focus-visible{
+    outline:2px solid var(--blue);
+    outline-offset:2px;
 }
 
-.welcome-card {
-
-    background: white;
-
-    padding: 30px;
-
-    border-radius: 12px;
-
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-
-    margin-bottom: 30px;
-
+@media (prefers-reduced-motion:reduce){
+    *{
+        animation:none !important;
+        transition:none !important;
+    }
 }
 
-.welcome-card h2 {
-
-    margin-bottom: 10px;
-
-    color: #0f172a;
-
+::-webkit-scrollbar{
+    width:10px;
 }
 
-.welcome-card p {
-
-    color: #666;
-
+::-webkit-scrollbar-track{
+    background:var(--bg);
 }
 
-.dashboard-container {
+::-webkit-scrollbar-thumb{
+    background:#c2cbd8;
+    border-radius:20px;
+}
 
-    display: grid;
+::-webkit-scrollbar-thumb:hover{
+    background:#9aa7ba;
+}
 
-    grid-template-columns: 320px 1fr;
+/* ================= HEADER ================= */
 
-    gap: 30px;
+header{
+    height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 40px;
+    background:var(--surface);
+    position:sticky;
+    top:0;
+    z-index:1000;
+    border-bottom:1px solid var(--border);
+}
 
+.logo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:19px;
+    font-weight:700;
+    color:var(--ink);
+    letter-spacing:-.2px;
+}
+
+#logoutBtn{
+    border:1px solid var(--red);
+    background:var(--surface);
+    color:var(--red);
+    font-weight:600;
+    font-size:13.5px;
+    padding:9px 18px;
+    border-radius:var(--r-sm);
+    cursor:pointer;
+    transition:background .2s,color .2s;
+}
+
+#logoutBtn:hover{
+    background:var(--red);
+    color:white;
+}
+
+/* ================= MAIN LAYOUT ================= */
+
+main{
+    width:min(1320px,92%);
+    margin:24px auto;
+}
+
+.hidden{
+    display:none;
+}
+
+/* ================= WELCOME BANNER ================= */
+
+.welcome-card{
+    background:linear-gradient(135deg,var(--blue),var(--violet));
+    border-radius:var(--r-lg);
+    padding:26px 28px;
+    color:white;
+    margin-bottom:20px;
+    box-shadow:var(--shadow-md);
+}
+
+.welcome-card h2{
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:6px;
+}
+
+.welcome-card p{
+    font-size:14px;
+    color:rgba(255,255,255,.85);
+}
+
+/* ================= DASHBOARD GRID ================= */
+
+.dashboard-container{
+    display:grid;
+    grid-template-columns:300px 1fr;
+    gap:16px;
+    align-items:start;
 }
 
 .join-project-card,
-.projects-card {
-
-    background: white;
-
-    border-radius: 12px;
-
-    padding: 25px;
-
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-
+.projects-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--r-lg);
+    padding:20px 22px;
+    box-shadow:var(--shadow-sm);
 }
 
 .join-project-card h3,
-.projects-card h3 {
-
-    margin-bottom: 20px;
-
-    color: #0f172a;
-
+.projects-card h3{
+    font-size:15px;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:14px;
 }
 
-.join-project-card input {
-
-    width: 100%;
-
-    padding: 13px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 8px;
-
-    font-size: 15px;
-
-    margin-bottom: 18px;
-
-    outline: none;
-
+.join-project-card{
+    border-top:3px solid var(--blue);
 }
 
-.join-project-card input:focus {
-
-    border-color: #2563eb;
-
+.join-project-card input{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid var(--border);
+    border-radius:var(--r-sm);
+    font-size:14px;
+    outline:none;
+    transition:border-color .2s,box-shadow .2s;
+    margin-bottom:12px;
 }
 
-#joinProjectBtn {
-
-    width: 100%;
-
-    padding: 13px;
-
-    background: #2563eb;
-
-    color: white;
-
-    border: none;
-
-    border-radius: 8px;
-
-    font-size: 15px;
-
-    cursor: pointer;
-
-    transition: 0.3s;
-
+.join-project-card input:focus{
+    border-color:var(--blue);
+    box-shadow:0 0 0 3px var(--blue-wash);
 }
 
-#joinProjectBtn:hover {
-
-    background: #1d4ed8;
-
+.join-project-card button,
+#joinProjectBtn{
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:var(--r-sm);
+    background:linear-gradient(135deg,var(--blue),var(--violet));
+    color:white;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    transition:filter .2s,transform .2s;
 }
 
-.projects-header {
-
-    margin-bottom: 20px;
-
+#joinProjectBtn:hover{
+    filter:brightness(1.08);
+    transform:translateY(-1px);
 }
 
-#projectsContainer {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 18px;
-
+.projects-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
 }
 
-.project-card {
-
-    border: 1px solid #e5e7eb;
-
-    border-radius: 10px;
-
-    padding: 18px;
-
-    transition: 0.3s;
-
+.projects-header h3{
+    margin-bottom:0;
 }
 
-.project-card:hover {
-
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-
+.projects-header input{
+    width:240px;
+    padding:9px 12px;
+    border:1px solid var(--border);
+    border-radius:var(--r-sm);
+    font-size:13.5px;
+    outline:none;
+    transition:border-color .2s,box-shadow .2s;
 }
 
-.project-card h4 {
-
-    margin-bottom: 12px;
-
-    color: #111827;
-
+.projects-header input:focus{
+    border-color:var(--blue);
+    box-shadow:0 0 0 3px var(--blue-wash);
 }
 
-.project-info {
+/* ================= TABLES (shared) ================= */
 
-    display: flex;
-
-    gap: 30px;
-
-    flex-wrap: wrap;
-
-    margin-bottom: 18px;
-
+table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--r-md);
+    overflow:hidden;
 }
 
-.project-info p {
-
-    color: #555;
-
-    font-size: 14px;
-
+thead{
+    background:linear-gradient(135deg,var(--blue),var(--violet));
 }
 
-.project-card button {
-
-    background: #2563eb;
-
-    color: white;
-
-    border: none;
-
-    padding: 10px 18px;
-
-    border-radius: 8px;
-
-    cursor: pointer;
-
-    transition: 0.3s;
-
+thead th{
+    color:white;
+    font-size:11.5px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+    padding:11px 14px;
+    text-align:left;
 }
 
-.project-card button:hover {
-
-    background: #1d4ed8;
-
+tbody td{
+    padding:10px 14px;
+    font-size:13.5px;
+    border-bottom:1px solid var(--border);
+    color:var(--ink);
 }
 
-.no-projects {
-
-    text-align: center;
-
-    color: #888;
-
-    padding: 50px 0;
-
+tbody td:nth-child(2){
+    font-family:"IBM Plex Mono",monospace;
+    font-size:13px;
+    color:var(--teal);
+    letter-spacing:.4px;
 }
+
+tbody tr:hover{
+    background:var(--blue-wash);
+}
+
+tbody tr:last-child td{
+    border-bottom:none;
+}
+
+tbody td[colspan]{
+    text-align:center;
+    padding:30px;
+    color:var(--muted);
+    font-style:italic;
+    background:var(--surface);
+}
+
+table button{
+    border:none;
+    border-radius:var(--r-sm);
+    padding:7px 14px;
+    font-size:13px;
+    font-weight:600;
+    color:white;
+    cursor:pointer;
+    transition:background .2s,transform .15s;
+}
+
+table button:hover{
+    transform:translateY(-1px);
+}
+
+.openProjectBtn{
+    background:var(--blue);
+}
+
+.openProjectBtn:hover{
+    background:var(--blue-dark);
+}
+
+.completeTaskBtn{
+    background:var(--green);
+}
+
+.completeTaskBtn:hover{
+    background:var(--green-dark);
+}
+
+.completeTaskBtn:disabled{
+    background:var(--muted);
+    cursor:not-allowed;
+    transform:none;
+}
+
+.deleteTaskBtn{
+    background:var(--red);
+    margin-left:6px;
+}
+
+.deleteTaskBtn:hover{
+    background:var(--red-dark);
+}
+
+/* Role / status text in the "My Projects" table reads as a
+   small tinted tag, same visual family as the status badges
+   used on the project detail page. */
+.role-badge,
+tbody td:nth-child(4){
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--slate);
+}
+
+/* ================= PROJECT DETAIL PAGE ================= */
+
+#projectSection{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--r-lg);
+    padding:24px 28px;
+    box-shadow:var(--shadow-sm);
+}
+
+#backBtn{
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--slate);
+    padding:8px 14px;
+    border-radius:var(--r-sm);
+    cursor:pointer;
+    font-weight:600;
+    font-size:13.5px;
+    transition:border-color .2s,color .2s;
+    margin-bottom:16px;
+}
+
+#backBtn:hover{
+    border-color:var(--blue);
+    color:var(--blue);
+}
+
+#projectName{
+    font-size:24px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:16px;
+}
+
+/* ================= PROJECT INFO GRID ================= */
+
+.project-info-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin-bottom:18px;
+}
+
+.project-info-grid > div{
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:var(--r-md);
+    padding:12px 14px;
+}
+
+.project-info-grid strong{
+    display:block;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.6px;
+    color:var(--muted);
+    font-weight:600;
+    margin-bottom:6px;
+}
+
+.project-info-grid span{
+    font-size:14px;
+    color:var(--ink);
+    font-weight:500;
+}
+
+#projectCode{
+    font-family:"IBM Plex Mono",monospace;
+    color:var(--teal);
+    letter-spacing:.4px;
+}
+
+#projectStatus{
+    padding:8px 10px;
+    border:1px solid var(--border);
+    border-radius:var(--r-sm);
+    font-size:13.5px;
+    color:var(--ink);
+    background:var(--surface);
+    outline:none;
+    transition:border-color .2s,box-shadow .2s;
+}
+
+#projectStatus:focus{
+    border-color:var(--blue);
+    box-shadow:0 0 0 3px var(--blue-wash);
+}
+
+#updateProjectStatusBtn{
+    margin-left:8px;
+    padding:8px 16px;
+    border:none;
+    border-radius:var(--r-sm);
+    background:var(--blue);
+    color:white;
+    font-weight:600;
+    font-size:13px;
+    cursor:pointer;
+    transition:background .2s;
+}
+
+#updateProjectStatusBtn:hover{
+    background:var(--blue-dark);
+}
+
+/* ================= PROGRESS ================= */
+
+.progress-container{
+    width:100%;
+    height:22px;
+    border-radius:20px;
+    background:var(--border);
+    overflow:hidden;
+    margin:18px 0;
+}
+
+.progress-bar{
+    height:100%;
+    background:linear-gradient(90deg,var(--blue),var(--violet));
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    padding-right:12px;
+    color:white;
+    font-size:12px;
+    font-weight:600;
+    font-family:"IBM Plex Mono",monospace;
+    transition:width .5s ease;
+    white-space:nowrap;
+}
+
+/* ================= TABS ================= */
+
+.project-tabs{
+    display:flex;
+    gap:22px;
+    margin:18px 0 16px;
+    border-bottom:1px solid var(--border);
+}
+
+.project-tabs button{
+    padding:8px 2px 10px;
+    border:none;
+    border-bottom:2px solid transparent;
+    background:none;
+    color:var(--muted);
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    transition:color .2s,border-color .2s;
+}
+
+.project-tabs button:hover{
+    color:var(--blue);
+}
+
+.project-tabs .active{
+    color:var(--blue);
+    border-bottom-color:var(--blue);
+    background:none;
+}
+
+#tasksBtn.active{
+    color:var(--green);
+    border-bottom-color:var(--green);
+}
+
+#engineersBtn.active{
+    color:var(--amber);
+    border-bottom-color:var(--amber);
+}
+
+#clientsBtn.active{
+    color:var(--violet);
+    border-bottom-color:var(--violet);
+}
+
+/* ================= OVERVIEW STAT CARDS ================= */
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+
+.stat-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-top:3px solid var(--blue);
+    border-radius:var(--r-md);
+    padding:16px;
+    text-align:center;
+    box-shadow:var(--shadow-sm);
+    transition:transform .2s,box-shadow .2s;
+}
+
+.stat-card:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--shadow-md);
+}
+
+.stats-grid .stat-card:nth-child(2){
+    border-top-color:var(--green);
+}
+
+.stats-grid .stat-card:nth-child(3){
+    border-top-color:var(--amber);
+}
+
+.stat-card h3{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:30px;
+    font-weight:600;
+    color:var(--blue);
+}
+
+.stats-grid .stat-card:nth-child(2) h3{
+    color:var(--green);
+}
+
+.stats-grid .stat-card:nth-child(3) h3{
+    color:var(--amber);
+}
+
+.stat-card p{
+    font-size:12px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:.6px;
+    font-weight:600;
+    margin-top:6px;
+}
+
+/* ================= ADD TASK / INVITE ROWS ================= */
+
+.add-task,
+.invite-section{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:16px;
+}
+
+.add-task input,
+.invite-section input{
+    padding:9px 12px;
+    border-radius:var(--r-sm);
+    border:1px solid var(--border);
+    outline:none;
+    font-size:14px;
+    transition:border-color .2s,box-shadow .2s;
+    background:var(--surface);
+}
+
+.add-task input{
+    flex:1;
+    min-width:160px;
+}
+
+.invite-section input{
+    flex:1;
+    min-width:220px;
+}
+
+#tasksDiv .add-task input:focus{
+    border-color:var(--green);
+    box-shadow:0 0 0 3px var(--green-wash);
+}
+
+#engineersDiv .invite-section input:focus{
+    border-color:var(--amber);
+    box-shadow:0 0 0 3px var(--amber-wash);
+}
+
+#clientsDiv .invite-section input:focus{
+    border-color:var(--violet);
+    box-shadow:0 0 0 3px var(--violet-wash);
+}
+
+.add-task button,
+.invite-section button{
+    padding:9px 20px;
+    border:none;
+    border-radius:var(--r-sm);
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+    font-size:14px;
+    transition:background .2s;
+    white-space:nowrap;
+}
+
+#addTaskBtn{
+    background:var(--green);
+}
+
+#addTaskBtn:hover{
+    background:var(--green-dark);
+}
+
+#inviteEngineerBtn{
+    background:var(--amber);
+}
+
+#inviteEngineerBtn:hover{
+    background:var(--amber-dark);
+}
+
+#inviteClientBtn{
+    background:var(--violet);
+}
+
+#inviteClientBtn:hover{
+    background:var(--violet-dark);
+}
+
+/* ================= STATUS BADGES ================= */
+
+.status-active,
+.status-pending,
+.status-completed{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:4px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+}
+
+.status-active::before,
+.status-pending::before,
+.status-completed::before{
+    content:"";
+    width:6px;
+    height:6px;
+    border-radius:50%;
+}
+
+.status-active{
+    color:var(--green);
+    background:var(--green-wash);
+}
+.status-active::before{
+    background:var(--green);
+}
+
+.status-pending{
+    color:var(--amber);
+    background:var(--amber-wash);
+}
+.status-pending::before{
+    background:var(--amber);
+}
+
+.status-completed{
+    color:var(--violet);
+    background:var(--violet-wash);
+}
+.status-completed::before{
+    background:var(--violet);
+}
+
+/* ================= RESPONSIVE ================= */
 
 @media(max-width:900px){
-
-    .dashboard-container{
-
-        grid-template-columns: 1fr;
-
-    }
-
     header{
-
-        padding: 0 20px;
-
+        padding:0 20px;
     }
 
     main{
-
-        padding: 0 20px;
-
+        width:95%;
     }
 
+    .dashboard-container{
+        grid-template-columns:1fr;
+    }
+
+    .project-info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+
+    .projects-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+    }
+
+    .projects-header input{
+        width:100%;
+    }
+
+    table{
+        display:block;
+        overflow-x:auto;
+    }
+
+    .add-task,
+    .invite-section{
+        flex-direction:column;
+    }
+
+    .add-task button,
+    .invite-section button{
+        width:100%;
+    }
+}
+
+@media(max-width:650px){
+    .welcome-card h2{
+        font-size:18px;
+    }
+
+    #projectName{
+        font-size:20px;
+    }
+
+    .stat-card h3{
+        font-size:24px;
+    }
 }
