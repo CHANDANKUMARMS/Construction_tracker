@@ -8,6 +8,7 @@
 // ------------------------------------------------------------
 let currentProjectCode = null;
 let allProjectsCache = [];
+let aiChatOpen = false;
 
 // ------------------------------------------------------------
 // Auth
@@ -106,6 +107,141 @@ async function apiRequest(endpoint, method = "GET", body = null) {
         return null;
 
     }
+
+}
+
+function openAIChat() {
+
+    document
+        .getElementById("aiChat")
+        .classList.remove("hidden");
+
+    aiChatOpen = true;
+}
+
+function closeAIChat() {
+
+    document
+        .getElementById("aiChat")
+        .classList.add("hidden");
+
+    aiChatOpen = false;
+}
+
+function addChatMessage(sender, message) {
+
+    const messages = document.getElementById("chatMessages");
+
+    const div = document.createElement("div");
+
+    div.className = sender;
+
+    div.innerText = message;
+
+    messages.appendChild(div);
+
+    messages.scrollTop = messages.scrollHeight;
+}
+
+async function sendAIQuestion() {
+
+    const input = document.getElementById("aiQuestion");
+
+    const question = input.value.trim();
+
+    if (!question) return;
+
+    addChatMessage("userMessage", question);
+
+    input.value = "";
+
+    const sendButton = document.getElementById("sendQuestion");
+
+    sendButton.disabled = true;
+
+    const result = await apiRequest(
+
+        "/ai/ask",
+
+        "POST",
+
+        {
+
+            context: allProjectsCache,
+
+            question: question
+
+        }
+
+    );
+
+    if (!result) {
+
+        addChatMessage(
+
+            "aiMessage",
+
+            "Sorry, I couldn't process your request."
+
+        );
+
+        sendButton.disabled = false;
+
+        return;
+
+    }
+
+    addChatMessage(
+
+        "aiMessage",
+
+        result.answer
+
+    );
+
+    sendButton.disabled = false;
+}
+
+function attachAI() {
+
+    document
+        .getElementById("aiButton")
+        .addEventListener(
+            "click",
+            openAIChat
+        );
+
+    document
+        .getElementById("closeAi")
+        .addEventListener(
+            "click",
+            closeAIChat
+        );
+
+    document
+        .getElementById("sendQuestion")
+        .addEventListener(
+            "click",
+            sendAIQuestion
+        );
+
+    document
+        .getElementById("aiQuestion")
+        .addEventListener(
+
+            "keypress",
+
+            function(event){
+
+                if(event.key==="Enter"){
+
+                    sendAIQuestion();
+
+                }
+
+            }
+
+        );
 
 }
 
@@ -871,6 +1007,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     attachInviteEngineerButton();
 
     attachInviteClientButton();
+
+    attachAI();
 
     await showDashboard();
 
